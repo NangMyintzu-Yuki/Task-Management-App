@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Login from './components/Auth/Login';
 import { fetchTaskLists, fetchTasks } from './services/api';
-
 import './App.css'
+import { ThemeContext } from './ThemeContext';
 
 function App() {
   const [userToken, setUserToken] = useState(null);
   const [taskLists, setTaskLists] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [selectedTaskList, setSelectedTaskList] = useState(null);
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
 
   const handleLoginSuccess = (token) => {
     setUserToken(token);
@@ -30,7 +32,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className={theme}>
       {!userToken ? (
         <Login onLoginSuccess={handleLoginSuccess} />
       ) : (
