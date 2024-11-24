@@ -1,39 +1,509 @@
-
-
 :root {
   --first-color: #111827;
   --second-color: #334155;
 }
 
+
+
 body[data-theme="light"] {
   background-color: var(--second-color);
-  /* background-color: white; */
-    color: var(--first-color);
+  color: white;
 }
 
 body[data-theme="dark"] {
   background-color: var(--first-color);
   color: white;
+
 }
 
-.container{
-  width: 100%;
-  text-align: center;
-  position: relative;
+body {
+  font-family: "Roboto Slab", serif;
+  box-sizing: border-box;
+  overflow: hidden;
 }
-.header{
+
+main {
+  width: 75%;
+  height: 100%;
+  display: grid;
+  gap: 0;
+  margin: 0 auto;
+}
+
+
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 90%;
-  margin: auto;
+  margin: 0 auto;
+  padding: 10px;
 }
-.header img{
-  width: 100px;
+
+.headerSide {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: 60px;
+  justify-content: space-between;
 }
-.toggleThemeBtn{
-  background:transparent;
-  outline:none;
-  border:none;
-  cursor:pointer;
+
+.header img {
+  width: 80px;
+  color: var(--second-color);
+}
+
+.toggleThemeBtn {
+  background: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+
+.actionButton {
+  border-radius: 4px;
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+}
+
+
+#dark .actionButton {
+  background: white;
+  color: var(--first-color);
+}
+
+#light .actionButton {
+  background: var(--second-color);
+  color: white;
+}
+
+#dark .actionButton.create_new:hover {
+  background: white;
+  color: var(--first-color);
+}
+
+#light .actionButton.create_new:hover {
+  background: var(--first-color);
+  color: var(--second-color);
+  border: 1px solid var(--second-color);
+}
+
+#dark .actionButton.add {
+  background-color: green;
+  color: white;
+}
+
+#light .actionButton.add {
+  background-color: green;
+  color: white;
+}
+
+#dark .actionButton.add:hover {
+  background: var(--first-color);
+  color: white;
+}
+
+#light .actionButton.add:hover {
+  background: var(--first-color);
+  color: white;
+}
+
+#dark .actionButton.close {
+  background-color: red;
+  color: white;
+}
+
+#light .actionButton.close {
+  background-color: red;
+  color: white;
+}
+
+#dark .actionButton.close:hover {
+  background: var(--first-color);
+  color: white;
+}
+
+#light .actionButton.close:hover {
+  background: var(--first-color);
+  color: white;
+}
+
+
+
+.taskContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 10px;
+}
+
+.taskList {
+  background: var(--second-color);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+#light .taskList {
+  background-color: var(--first-color);
+  color: white;
+}
+
+#dark .taskList {
+  background-color: var(--second-color);
+  color: white;
+}
+
+.taskProgressList {
+  text-align: center;
+  background: var(--second-color);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.taskProgressBody {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  height: 85%;
+  column-gap: 20px;
+
+}
+
+#light .taskProgressList {
+  background-color: var(--first-color);
+  color: white;
+}
+
+#dark .taskProgressList {
+  background-color: var(--second-color);
+  color: white;
+}
+
+.taskCardHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.taskCardBody {
+  min-height: 30vh;
+  max-height: 55vh;
+  overflow-y: scroll;
+  padding: 10px;
+}
+
+.taskCardItem {
+  background-color: var(--first-color);
+  padding: 5px 20px 5px 20px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+#light .taskCardItem {
+  background-color: var(--second-color);
+}
+
+#dark .taskCardItem {
+  background-color: var(--first-color);
+}
+
+.taskCardItem .status {
+  margin-top: 15px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.taskCardItem .status span {
+  font-weight: bold;
+  padding: 4px 10px;
+  background: rgb(123, 193, 123);
+  color: var(--first-color);
+  border-radius: 4px;
+}
+
+
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  width: 90%;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  text-align: center;
+  color: var(--second-color);
+  background-color: var(--second-color);
+}
+
+
+
+.modal-content h2 {
+  margin: 0 0 20px;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content input {
+  width: calc(100% - 20px);
+  padding: 6px 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.modal-content textarea {
+  width: calc(100% - 20px);
+  padding: 6px 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.modal-content select {
+  width: calc(100% - 0px);
+  padding: 6px 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.modal-footer {
+  display: flex;
+  flex-direction: row;
+  column-gap: 5px;
+  justify-content: end;
+}
+
+.cardTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actions svg {
+  width: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.cardTitle a {
+  text-decoration: none;
+  color: white !important;
+}
+.notes{
+  display: block;
+  text-align: justify !important;
+    color: rgb(178, 174, 174);
+}
+
+.status {
+  color: rgb(141, 136, 136);
+}
+
+.username {
+  text-transform: capitalize;
+}
+.detailBody{
+  color: white;
+  text-align: left;
+}
+.detailBody p{
+  font-size: small;
+  color: #888;
+}
+.statusDropdown{
+  background: rgb(123, 193, 123);
+  padding: 2px 10px;
+  border-radius: 5px;
+  color: var(--first-color);
+  outline: none;
+}
+
+
+
+/* Responsive Design */
+
+@media (max-width: 769px) {
+  main {
+    width: 90%;
+  }
+
+  .taskContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 20px;
+    overflow-y: auto;
+    height: 80vh;
+  }
+
+  .taskProgressList {
+    margin-top: 20px;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+    .taskProgressBody {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      height: auto;
+      align-items: center;
+    }
+}
+
+@media (max-width: 415px) {
+
+  main {
+    width: 95%;
+  }
+
+  .taskContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 20px;
+    overflow-y: auto;
+    height: 65vh;
+  }
+
+  .taskList {
+    padding: 0px;
+  }
+
+  .taskProgressList {
+    margin-top: 20px;
+    padding: 0;
+    height: 70vh;
+  }
+
+  .taskCardHeader {
+    padding: 5px 20px;
+  }
+
+  .taskProgressBody {
+    height: 85%;
+  }
+
+  .taskCardItem .status {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+  }
+
+  .modal-body {
+    width: 90%;
+  }
+
+  .modal-content {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 20px 10px;
+  }
+
+  .modal-content h2 {
+    font-size: 2rem;
+  }
+}
+
+
+/* loading */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+::-webkit-scrollbar {
+  width: 2px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+  border: 3px solid var(--first-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: var(--second-color);
 }

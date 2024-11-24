@@ -1,0 +1,72 @@
+
+
+.container {
+  height: 97vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: hidden;
+}
+.card {
+  width: 40%;
+  background-color: white;
+  color: var(--first-color);
+  padding: 10px;
+  margin: auto;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+#light .card{
+  background-color: var(--first-color);
+  color: white;
+}
+#dark .card{
+  background-color: var(--second-color);
+  color: white;
+}
+.card .intro{
+  text-align: center;
+}
+
+.googleBtn {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  color: var(--first-color);
+  border: 1px solid var(--first-color);
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#light .googleBtn {
+  background-color: var(--second-color);
+  color: white;
+}
+
+#dark .googleBtn {
+  background-color: var(--first-color);
+  color: white;
+}
+#light .googleBtn:hover {
+  background-color: white;
+  color: var(--first-color);
+}
+
+#dark .googleBtn:hover {
+  background-color: transparent;
+  color: white;
+}
+.signUp{
+  font-weight: bold;
+}
+#dark a{
+color: #0fc236;
+}
+#light a {
+  color: #358fea;
+}

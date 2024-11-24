@@ -1,0 +1,17 @@
+.circle-progress-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-progress-bar svg {
+  transform: rotate(-90deg);
+}
+
+.percentage-label {
+  position: absolute;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+}
