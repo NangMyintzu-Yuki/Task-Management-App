@@ -15,3 +15,9 @@
   font-weight: bold;
   color: white;
 }
+#light .percentage-label{
+  color: var(--second-color);
+}
+#dark .percentage-label {
+  color: white;
+}

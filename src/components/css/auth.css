@@ -22,8 +22,8 @@
   box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
 }
 #light .card{
-  background-color: var(--first-color);
-  color: white;
+ color: var(--first-color);
+  background-color: white;
 }
 #dark .card{
   background-color: var(--second-color);

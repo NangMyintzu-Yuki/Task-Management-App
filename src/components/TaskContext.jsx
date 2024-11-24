@@ -18,6 +18,7 @@ export const TaskProvider = ({ children }) => {
 
   const fetchTasks = async (token) => {
     try {
+      console.log(token)
       setLoading(true);
       await gapi?.client?.load("tasks", "v1");
 
@@ -72,38 +73,57 @@ export const TaskProvider = ({ children }) => {
   };
 
   const updateTask = async (taskId, updatedData) => {
-    await gapi.client.load("tasks", "v1");
-
-    const taskExists = tasks.some((task) => task.id === taskId);
-    if (!taskExists) {
-      throw new Error('Task ID does not exist in the current task list.');
-    }
     try {
+      console.log("Task ID to update:", taskId);
+      if (!taskId) {
+        throw new Error("Task ID is missing or invalid.");
+      }
+
+      await gapi?.client?.load("tasks", "v1");
+
+      const taskExists = tasks.some((task) => task.id === taskId);
+      if (!taskExists) {
+        throw new Error("Task ID does not exist in the current task list.");
+      }
+
       setLoading(true);
-      const response = await gapi.client.tasks.tasks.update({
-        tasklist: '@default',
+
+      const user = JSON.stringify(localStorage.getItem('user'))
+      const token  = user.token;
+      console.log(updatedData)
+      const response = await gapi?.client?.tasks?.tasks?.update({
+        tasklist: "@default", 
         task: taskId,
+        id: taskId,
+        title: updatedData.title,
+        notes: updatedData.notes,
+        status: updatedData.status,
         resource: {
           title: updatedData.title,
           notes: updatedData.notes,
           status: updatedData.status,
         },
       });
+
+      console.log("API Response:", response);
+
       setTasks((prevTasks) => {
         const updatedTasks = prevTasks.map((task) =>
-          task.id === taskId ? { ...task, title: updatedData.title, notes: updatedData.notes, status: updatedData.status } : task
-        )
-        countUpdate(updatedTasks);
+          task.id === taskId
+            ? { ...task, title: updatedData.title, notes: updatedData.notes, status: updatedData.status }
+            : task
+        );
+        countUpdate(updatedTasks); 
         return updatedTasks;
-      }
-      );
+      });
+
       setLoading(false);
-
     } catch (error) {
-      console.error('Error updating task:', error);
+      console.error("Error updating task:", error);
+      setLoading(false);
     }
-
   };
+
 
   const deleteTask = async (taskId) => {
     setLoading(true);
@@ -124,6 +144,7 @@ export const TaskProvider = ({ children }) => {
 
   const updateStatus = async (taskId, newStatus) => {
     try {
+      console.log('call');
       await gapi.client.tasks.tasks.update({
         tasklist: "@default",
         task: taskId,
