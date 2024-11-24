@@ -1,38 +1,36 @@
 import React, { useState, useContext } from 'react';
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 import ThemeToggleButton from '../../Common/ThemeToggleButton';
-import { useNavigate } from 'react-router-dom';
-import '../css/auth.css'
+import '../../css/auth.css'
 import { ThemeContext } from '../../../ThemeContext';
+import { gapi } from 'gapi-script';
 
-const Register = ({ onRegisterSuccess }) => {
-  const [user, setUser] = useState(null);
+const Register = ({ onSignIn }) => {
   const {theme}  = useContext(ThemeContext)
-  const navigate = useNavigate();
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const registerWithGoogle = async() =>{
+    try {
+      const googleAuth = gapi.auth2.getAuthInstance();
+      const user = await googleAuth.signIn();
 
-  const registerWithGoogle = useGoogleLogin({
-    onSuccess: async (response) => {
-      try {
-        const userInfo = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: {
-            Authorization: `Bearer ${response.access_token}`,
-          },
-        });
-        const userData = await userInfo.json();
-        onRegisterSuccess(userData);
+      const userInfo = {
+        profile: {
+          id: user.getId(),
+          name: user.getBasicProfile().getName(),
+          email: user.getBasicProfile().getEmail(),
+          imageUrl: user.getBasicProfile().getImageUrl(),
+        },
+        token: user.getAuthResponse().id_token,
+      };
 
-        setUser(userData);
-        navigate('/login');
-        localStorage.setItem('googleUser', JSON.stringify(userData));
-      } catch (error) {
-        console.error('Error fetching user info:', error);
-      }
-    },
-    onError: () => {
-      console.error('Register Failed');
-    },
-  });
+      localStorage.setItem("user", JSON.stringify(userInfo));
 
+      setIsSignedIn(true);
+      onSignIn(userInfo);
+      window.location.href="/";
+    } catch (error) {
+      console.error("Error during Google Sign-In:", error);
+    }
+  }
   return (
 
     <div className="container" id={theme}>
@@ -42,7 +40,6 @@ const Register = ({ onRegisterSuccess }) => {
       </div>
       <div className="card">
       <div className="intro">
-
         <h1>Welcome To Task App</h1>
           <small> “One of the secrets of getting more done is to make a TO-DO List every day, keep it visible, and use it as a guide to action as you go through the day.”</small>
         </div>
@@ -61,7 +58,7 @@ const Register = ({ onRegisterSuccess }) => {
 
         </div>
         <p>
-          I have already an account? <a href="/login" >Sign In</a>
+          I have already an account? <a href="/" >Sign In</a>
         </p>
       </div>
     </div>

@@ -70,3 +70,27 @@ color: #0fc236;
 #light a {
   color: #358fea;
 }
+@media (max-width: 769px) {
+  .card {
+      width: 70%;
+      height: 70vh;
+    }
+  
+}
+
+@media (max-width: 415px) {
+  .card{
+    width: 90%;
+    height: 70vh;
+  }
+  .intro h1{
+    font-size: 28px;
+  }
+  .intro{
+    padding: 10px;
+  }
+  .intro small{
+    font-size: 12px;
+    text-align: center;
+  }
+}

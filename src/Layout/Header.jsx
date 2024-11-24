@@ -8,6 +8,7 @@ const Header = () => {
     const googleAuth = gapi.auth2.getAuthInstance();
     googleAuth.signOut().then(() => {
       localStorage.removeItem("user"); 
+      window.location.href="/";
     });
   };
 

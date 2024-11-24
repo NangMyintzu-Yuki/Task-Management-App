@@ -30,6 +30,9 @@ main {
   margin: 0 auto;
 }
 
+svg{
+  cursor: pointer;
+}
 
 .header {
   display: flex;
@@ -134,7 +137,15 @@ main {
   color: white;
 }
 
+#dark .actionButton.back {
+  background: white;
+  color: red;
+}
 
+#light .actionButton.back {
+  background: red;
+  color: white;
+}
 
 .taskContainer {
   display: grid;
