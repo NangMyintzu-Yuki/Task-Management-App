@@ -6,11 +6,10 @@ const TaskModal = ({ isOpen, onClose, task, addTask, updateTask, setIsModalOpen 
     title: task?.title || '',
     notes: task?.notes || '',
     status: task?.status || '',
+    due: task?.due || undefined,
   })
-  const [title, setTitle] = useState(task?.title || "");
-  const [notes, setNotes] = useState(task?.notes || "");
-  const [status, setStatus] = useState(task?.status || "needsAction");
 
+  console.log(newTask)
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewTask((prevTask) => ({
@@ -38,14 +37,14 @@ const TaskModal = ({ isOpen, onClose, task, addTask, updateTask, setIsModalOpen 
         <h2>{task ? "Edit Task" : "Add Task"}</h2>
         <div className="modal-body">
           <input type="text" placeholder="Task Title" value={newTask.title} name="title" onChange={handleInputChange} />
-          <textarea type="text" name="notes" placeholder="Task Description" value={newTask.notes} onChange={handleInputChange }>{notes}</textarea>
+          <textarea type="text" name="notes" placeholder="Task Description" value={newTask.notes} onChange={handleInputChange }>{newTask.notes}</textarea>
           <select name="status" id="status" value={newTask.status} onChange={handleInputChange} >
             <option value="needsAction">Incomplete</option>
             <option value="completed">Completed</option>
           </select>
-          {/**
-            <input type="datetime-local" placeholder="Due Date" value={due} name="due" onChange={(e) => setDue(e.target.value)} />
-            */}
+          
+            <input type="datetime-local" placeholder="Due Date" value={newTask.due} name="due" onChange={handleInputChange} />
+            
         </div>
         <div className="modal-footer">
           <button type="submit" className="actionButton add">{task ? "Update" : "Create"}</button>

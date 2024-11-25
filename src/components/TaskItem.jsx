@@ -10,6 +10,11 @@ const TaskItem = ({ task, handleEdit, deleteTask, handleDetail, updateStatus }) 
       </small>
     );
   };
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(new Date(dateString));
+    return formattedDate;
+  };
   const handleChange = (e) =>{
     const updatedData = {
     title:task.title, notes:task.notes, status: e.target.value
@@ -38,6 +43,9 @@ const TaskItem = ({ task, handleEdit, deleteTask, handleDetail, updateStatus }) 
         </div>
       </div>
         <LimitedText text={task.notes} limit={100} />
+      <div className="dueDate">
+        Due Date: {task.due ? formatDate(task.due) : "No Due Date"}
+</div>
       <div className="status">
         <p>Updated: &nbsp; {new Date(task.updated).toLocaleString()} </p>
         <p>

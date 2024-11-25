@@ -28,7 +28,7 @@ export const TaskProvider = ({ children }) => {
       });
 
       const fetchedTasks = response?.result?.items || [];
-      setTasks(fetchedTasks); 
+      setTasks(fetchedTasks);
 
       countUpdate(fetchedTasks);
 
@@ -42,12 +42,15 @@ export const TaskProvider = ({ children }) => {
   const addTask = async (data) => {
     try {
       setLoading(true);
+      const dueDate = data.due ? new Date(data.due).toISOString() : '';
+
       const response = await gapi.client.tasks.tasks.insert({
         tasklist: '@default',
         resource: {
           title: data.title,
           notes: data.notes,
           status: data.status,
+          due: dueDate,
         },
       });
 
@@ -78,14 +81,16 @@ export const TaskProvider = ({ children }) => {
       const response = await gapi?.client?.tasks?.tasks?.update({
         tasklist: "@default",
         task: taskId,
-        id:taskId,
-        title: updatedData.title, 
-        notes: updatedData.notes, 
-        status: updatedData.status, 
+        id: taskId,
+        title: updatedData.title,
+        notes: updatedData.notes,
+        status: updatedData.status,
+        due: updatedData.due ? new Date(updatedData.due).toISOString() : '',
         resource: {
-          title: updatedData.title, 
-          notes: updatedData.notes, 
-          status: updatedData.status, 
+          title: updatedData.title,
+          notes: updatedData.notes,
+          status: updatedData.status,
+          due: updatedData.due ? new Date(updatedData.due).toISOString() : '',
         },
       });
 
@@ -98,6 +103,7 @@ export const TaskProvider = ({ children }) => {
               title: updatedData.title,
               notes: updatedData.notes,
               status: updatedData.status,
+              due: updatedData.due
             }
             : task
         )
@@ -132,7 +138,7 @@ export const TaskProvider = ({ children }) => {
 
   const updateStatus = async (taskId, updatedData) => {
     try {
-      
+
       await gapi?.client?.tasks?.tasks?.update({
         tasklist: "@default",
         task: taskId,
@@ -140,16 +146,18 @@ export const TaskProvider = ({ children }) => {
         title: updatedData.title,
         notes: updatedData.notes,
         status: updatedData.status,
+        due: updatedData.due ? new Date(updatedData.due).toISOString() : '',
 
         resource: {
           title: updatedData.title,
           notes: updatedData.notes,
           status: updatedData.status,
+          due: updatedData.due ? new Date(updatedData.due).toISOString() : '',
         },
       });
       setTasks((prevTasks) => {
         const updatedTask = prevTasks.map((task) =>
-          task.id === taskId ? { ...task, status: updatedData.status, title:updatedData.title, notes:updatedData.notes } : task
+          task.id === taskId ? { ...task, status: updatedData.status, title: updatedData.title, notes: updatedData.notes, due:updatedData.due } : task
         )
         countUpdate(updatedTask)
         return updatedTask;

@@ -30,10 +30,11 @@ const TaskList = ({ user }) => {
   }
   const handleClose = () =>{
     setIsModalOpen(false)
-    setCurrentTask({title:'',notes:'', status:''})
+    setCurrentTask({title:'',notes:'', status:'',due:''})
   }
   const handleDetail = (task) =>{
     setIsDetailOpen(true);
+    console.log('edit',task)
     setCurrentTask(task);
   }
  
