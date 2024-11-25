@@ -21,7 +21,7 @@ const TaskList = ({ user }) => {
     if (user) {
       fetchTasks(user.token);
     }
-  }, [user]);
+  }, []);
 
 
   const handleEdit = (task) => {
@@ -59,7 +59,7 @@ const TaskList = ({ user }) => {
               <div className="taskCardBody">
                 {
                   tasks?.map((task) => (
-                    <TaskItem key={task.id} task={task} handleEdit={handleEdit} deleteTask={deleteTask} handleDetail={handleDetail} handleStatusChange={updateStatus}  />
+                    <TaskItem key={task.id} task={task} handleEdit={handleEdit} deleteTask={deleteTask} handleDetail={handleDetail} updateStatus={updateStatus}  />
                   ))
                 }
               </div>
@@ -90,14 +90,9 @@ const TaskList = ({ user }) => {
             isOpen={isModalOpen}
             onClose={handleClose}
             task={currentTask}
-            onSubmit={(data) => {
-              if (currentTask) {
-                updateTask(currentTask.id, data);
-              } else {
-                addTask(data);
-              }
-              setIsModalOpen(false);
-            }}
+            addTask={addTask}
+            updateTask={updateTask}
+            setIsModalOpen={setIsModalOpen}
           />
         )
       }

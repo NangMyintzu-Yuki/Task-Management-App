@@ -16,9 +16,9 @@ export const TaskProvider = ({ children }) => {
     total: 0,
   })
 
+
   const fetchTasks = async (token) => {
     try {
-      console.log(token)
       setLoading(true);
       await gapi?.client?.load("tasks", "v1");
 
@@ -27,22 +27,15 @@ export const TaskProvider = ({ children }) => {
         auth: token,
       });
 
-      setTasks((prevTasks) => {
-        const updatedTasks = [...prevTasks, response.result];
-        countUpdate(updatedTasks);
-        return updatedTasks;
-      }
-      );
+      const fetchedTasks = response?.result?.items || [];
+      setTasks(fetchedTasks); 
 
-      setTasks(() => {
-        const updatedTasks = response?.result?.items || [];
-        countUpdate(updatedTasks);
-        return updatedTasks;
-      })
+      countUpdate(fetchedTasks);
+
       setLoading(false);
-
     } catch (error) {
       console.error("Error fetching tasks:", error);
+      setLoading(false);
     }
   };
 
@@ -74,48 +67,44 @@ export const TaskProvider = ({ children }) => {
 
   const updateTask = async (taskId, updatedData) => {
     try {
-      console.log("Task ID to update:", taskId);
       if (!taskId) {
         throw new Error("Task ID is missing or invalid.");
       }
 
       await gapi?.client?.load("tasks", "v1");
 
-      const taskExists = tasks.some((task) => task.id === taskId);
-      if (!taskExists) {
-        throw new Error("Task ID does not exist in the current task list.");
-      }
-
       setLoading(true);
 
-      const user = JSON.stringify(localStorage.getItem('user'))
-      const token  = user.token;
-      console.log(updatedData)
       const response = await gapi?.client?.tasks?.tasks?.update({
-        tasklist: "@default", 
+        tasklist: "@default",
         task: taskId,
-        id: taskId,
-        title: updatedData.title,
-        notes: updatedData.notes,
-        status: updatedData.status,
+        id:taskId,
+        title: updatedData.title, 
+        notes: updatedData.notes, 
+        status: updatedData.status, 
         resource: {
-          title: updatedData.title,
-          notes: updatedData.notes,
-          status: updatedData.status,
+          title: updatedData.title, 
+          notes: updatedData.notes, 
+          status: updatedData.status, 
         },
       });
 
-      console.log("API Response:", response);
 
       setTasks((prevTasks) => {
         const updatedTasks = prevTasks.map((task) =>
           task.id === taskId
-            ? { ...task, title: updatedData.title, notes: updatedData.notes, status: updatedData.status }
+            ? {
+              ...task,
+              title: updatedData.title,
+              notes: updatedData.notes,
+              status: updatedData.status,
+            }
             : task
-        );
-        countUpdate(updatedTasks); 
+        )
+        countUpdate(updatedTasks);
         return updatedTasks;
-      });
+      }
+      );
 
       setLoading(false);
     } catch (error) {
@@ -123,7 +112,6 @@ export const TaskProvider = ({ children }) => {
       setLoading(false);
     }
   };
-
 
   const deleteTask = async (taskId) => {
     setLoading(true);
@@ -142,17 +130,26 @@ export const TaskProvider = ({ children }) => {
     setLoading(false);
   };
 
-  const updateStatus = async (taskId, newStatus) => {
+  const updateStatus = async (taskId, updatedData) => {
     try {
-      console.log('call');
-      await gapi.client.tasks.tasks.update({
+      
+      await gapi?.client?.tasks?.tasks?.update({
         tasklist: "@default",
         task: taskId,
-        resource: { status: newStatus },
+        id: taskId,
+        title: updatedData.title,
+        notes: updatedData.notes,
+        status: updatedData.status,
+
+        resource: {
+          title: updatedData.title,
+          notes: updatedData.notes,
+          status: updatedData.status,
+        },
       });
       setTasks((prevTasks) => {
         const updatedTask = prevTasks.map((task) =>
-          task.id === taskId ? { ...task, status: newStatus } : task
+          task.id === taskId ? { ...task, status: updatedData.status, title:updatedData.title, notes:updatedData.notes } : task
         )
         countUpdate(updatedTask)
         return updatedTask;

@@ -2,7 +2,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-const TaskItem = ({ task, handleEdit, deleteTask, handleDetail, handleStatusChange }) => {
+const TaskItem = ({ task, handleEdit, deleteTask, handleDetail, updateStatus }) => {
   const LimitedText = ({ text, limit }) => {
     return (
       <small className="notes">
@@ -10,6 +10,12 @@ const TaskItem = ({ task, handleEdit, deleteTask, handleDetail, handleStatusChan
       </small>
     );
   };
+  const handleChange = (e) =>{
+    const updatedData = {
+    title:task.title, notes:task.notes, status: e.target.value
+    }
+    updateStatus(task.id, updatedData)
+}
   return (
     <div className="taskCardItem">
       <div className="cardTitle">
@@ -38,7 +44,7 @@ const TaskItem = ({ task, handleEdit, deleteTask, handleDetail, handleStatusChan
           Status: &nbsp;&nbsp;
           <select
           value={task.status}
-          onChange={(e)=>handleStatusChange(task.id,e.target.value)}
+          onChange={handleChange}
           className="statusDropdown"
           >
           <option value="needsAction">Not Started</option>
