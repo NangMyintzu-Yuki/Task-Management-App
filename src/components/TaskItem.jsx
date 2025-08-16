@@ -56,6 +56,7 @@ const TaskItem = ({ task, handleEdit, deleteTask, handleDetail, updateStatus }) 
           className="statusDropdown"
           >
           <option value="needsAction">Not Started</option>
+          <option value="doing">Doing</option>
           <option value="completed">Completed</option>
           </select>
         </p>

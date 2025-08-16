@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import useGoogleApi from './components/GoogleApi';
 import MainLayout from './Layout/MainLayout';
 import Login from './components/pages/Auth/Login';
